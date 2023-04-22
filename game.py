@@ -48,13 +48,13 @@ class Game():
                     if event.key == pygame.K_RETURN:
                         self.start_screen = False
                 self.screen.fill((0,0,0))
-                # self.start_message('grande', 'Snake_game',
-                                #    (300,300, 100, 50),
-                                #    (255,255,255))
-                # self.start_message('moyenne', 'Presse une touche pour commencer!',
-                                #    (200,400,300, 50),
-                                #    (255,255,255))
-                # self.screen.blit(self.image_title,(300,50,100,50) )
+                self.start_message('grande', 'Sab_Snake',
+                                   (315,300, 100, 50),
+                                   (13,121,9))
+                self.start_message('moyenne', 'Presse une touche pour commencer!',
+                                   (215,400,300, 50),
+                                   (255,255,255))
+                self.screen.blit(self.image_title,(300,50,100,50) )
                 pygame.display.flip()
         
         
@@ -65,51 +65,54 @@ class Game():
                 if event.type == pygame.QUIT: 
                     pygame.quit()
 
-                if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 # direction vers la droite
-                    if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT:
                         self.snake_direction_x = 10
                         self.snake_direction_y = 0
                         print("droite")
-                    if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT:
                         self.snake_direction_x = -10
                         self.snake_direction_y = 0
                         print("gauche")
-                    if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN:
                         self.snake_direction_y = 10
                         self.snake_direction_x = 0
                         print("en bas")
-                    if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP:
                         self.snake_direction_y = -10
                         self.snake_direction_x = 0
                         print("en haut")
                 
-                if self.snake_position_x <= 10 or self.snake_position_x >= 780 or self.snake_position_y <= 10 or self.snake_position_y >= 580:
-                    pygame.quit()
+            if self.snake_position_x <= 10 or self.snake_position_x >= 780 or self.snake_position_y <= 10 or self.snake_position_y >= 580:
+                self.message_lose('grande', 'Dommage tu es sortie du champs',
+                                   (315,300, 100, 50),
+                                   (13,121,9))
+                   
         # deplacement du snake
-                self.snake_move()
+            self.snake_move()
 
         # deplacmeent de la pomme qi le snake la mange
-                self.apple_move()
+            self.apple_move()
                 # append les postion de la tete du serpent
-                heads_snake = [] 
-                heads_snake.append(self.snake_position_x)
-                heads_snake.append(self.snake_position_y)
+            heads_snake = [] 
+            heads_snake.append(self.snake_position_x)
+            heads_snake.append(self.snake_position_y)
 
                 # append les position du corps du     serpent
-                self.snake_position.append(heads_snake)
+            self.snake_position.append(heads_snake)
                 # gestion de la taille du serpent 
-                self.size_snake()
+            self.size_snake()
                     
                 # affichage du bg snake et apple
-                self.display_elements()
+            self.display_elements()
                 # si le serpent se mord la queue lejeu s'arrete
-                for fragment_snake in self.snake_position[:-1]:
-                    if heads_snake == fragment_snake:
-                            pygame.quit()
+            for fragment_snake in self.snake_position[:-1]:
+                if heads_snake == fragment_snake:
+                    pygame.quit()
                 # limite de l'ecran enblanc
-                self.limit_script()
-                self.clock.tick(30)
+            self.limit_script()
+            self.clock.tick(20)
 
             # maj de l'ecran or du for
             pygame.display.update()
@@ -118,7 +121,7 @@ class Game():
         pygame.draw.rect(self.screen,(255,255,255),(0,0,800,600), 3)
 
     def snake_move(self):
-        self.snake_position_x += self.snake_direction_x
+        self.snake_position_x += self.snake_direction_x 
         self.snake_position_y += self.snake_direction_y
         print(self.snake_position_x , self.snake_direction_y)
 
@@ -168,8 +171,19 @@ class Game():
         
         message = font.render(message, True, color)
         self.screen.blit(message, message_rect)
+
+
+    def message_lose(self, font,message, message_rect,  color):
+        if font == 'petite':
+            font = pygame.font.SysFont('Rubik Vinyl', 20, False)
+        elif font == 'moyenne':
+            font = pygame.font.SysFont('Rubik Vinyl', 30, False)
+        elif font == 'grande':
+            font = pygame.font.SysFont('Rubik Vinyl', 40, False)
        
-                    
+        message = font.render(message, True, color)
+        self.screen.blit(message, message_rect)
+
 
     
 
